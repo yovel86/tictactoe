@@ -30,13 +30,14 @@ public class TicTacToe {
             // Play Again?
             System.out.println("Do you want to play again? (Y/N) ");
             char playAgain = input.next().charAt(0);
-            while(playAgain == 'Y' || playAgain == 'y') {
+            while((playAgain == 'Y' || playAgain == 'y') && !issueHappened) {
                 createAndPlayGame();
-                askForReplay();
-                System.out.println("Do you want to play again? (Y/N)");
-                playAgain = input.next().charAt(0);
+                if(!issueHappened) {
+                    askForReplay();
+                    System.out.println("Do you want to play again? (Y/N)");
+                    playAgain = input.next().charAt(0);
+                }
             }
-
             System.out.println("Thanks for Playing! See you soon...");
         }
 
