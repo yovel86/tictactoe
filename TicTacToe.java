@@ -119,12 +119,15 @@ public class TicTacToe {
         //           -> ELSE, capture the move & pass the chance to next player
         while(gameController.getGameStatus(game) == GameStatus.IN_PROGRESS) {
             if(gameController.getCurrentPlayer(game) instanceof HumanPlayer) {
-                System.out.println("\nCurrent Board");
+                System.out.println("Current Board");
                 gameController.printBoard(game);
             }
             gameController.makeMove(game);
             gameController.printBoard(game);
-            gameController.undo(game);
+            // Ask for UNDO, only if the game is in progress
+            if(gameController.getGameStatus(game).equals(GameStatus.IN_PROGRESS)) {
+                gameController.undo(game);
+            }
         }
         GameStatus gameStatus = gameController.getGameStatus(game);
         if(gameStatus.equals(GameStatus.ENDED)) {

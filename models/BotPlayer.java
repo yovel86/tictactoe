@@ -23,7 +23,7 @@ public class BotPlayer extends Player {
         } catch (InterruptedException e) {
             System.out.println(e.getMessage());
         }
-        System.out.println(this.getName() + "'s Move ");
+        System.out.println("\n" + this.getName() + "'s Move ");
         return botPlayingStrategy.makeMove(board);
     }
 
