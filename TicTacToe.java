@@ -7,36 +7,42 @@ import java.util.*;
 
 public class TicTacToe {
 
-    static Scanner input;
-    static Game game;
-    static GameController gameController;
-    static List<Player> players;
-    static Set<Character> symbolSet;
+    private static Game game;
+    private static GameController gameController;
+    private static List<Player> players;
+    private static Set<Character> symbolSet;
+    private static boolean issueHappened;
+    private static Scanner input;
 
     public static void main(String[] args) {
 
         input = new Scanner(System.in);
         gameController = new GameController();
+        issueHappened = false;
 
         // First Play-through
         createAndPlayGame();
-        askForReplay();
 
-        // Play Again?
-        System.out.println("Do you want to play again? (Y/N) ");
-        char playAgain = input.next().charAt(0);
-        while(playAgain == 'Y' || playAgain == 'y') {
-            createAndPlayGame();
+        // If there is no error while creating the game
+        if(!issueHappened) {
+            // Replay of the entire game
             askForReplay();
-            System.out.println("Do you want to play again? (Y/N)");
-            playAgain = input.next().charAt(0);
-        }
+            // Play Again?
+            System.out.println("Do you want to play again? (Y/N) ");
+            char playAgain = input.next().charAt(0);
+            while(playAgain == 'Y' || playAgain == 'y') {
+                createAndPlayGame();
+                askForReplay();
+                System.out.println("Do you want to play again? (Y/N)");
+                playAgain = input.next().charAt(0);
+            }
 
-        System.out.println("Thanks for Playing! See you soon...");
+            System.out.println("Thanks for Playing! See you soon...");
+        }
 
     }
 
-    public static void createAndPlayGame() {
+    private static void createAndPlayGame() {
         initializeGame();
         gatherInfoOfHumanPlayers();
         gatherInfoOfBots();
@@ -45,18 +51,19 @@ public class TicTacToe {
             game = gameController.createGame(players, undoCount);
         } catch (Exception e) {
             System.out.println("Error while creating the game: " + e.getMessage());
+            issueHappened = true;
             return;
         }
         playGame();
     }
 
-    public static void initializeGame() {
+    private static void initializeGame() {
         players = new ArrayList<>();
         symbolSet = new HashSet<>();
     }
 
     // Gathering Info of Human Players
-    public static void gatherInfoOfHumanPlayers() {
+    private static void gatherInfoOfHumanPlayers() {
         System.out.println("How many Human players?");
         int numOfHumanPlayers = input.nextInt();
         for(int i = 1; i <= numOfHumanPlayers; i++) {
@@ -72,7 +79,7 @@ public class TicTacToe {
         }
     }
 
-    public static void gatherInfoOfBots() {
+    private static void gatherInfoOfBots() {
         System.out.println("How many Bots?");
         int numOfBots = input.nextInt();
         // Gathering Info of Bots
@@ -103,12 +110,12 @@ public class TicTacToe {
         }
     }
 
-    public static int gatherInfoOfUndoLimit() {
+    private static int gatherInfoOfUndoLimit() {
         System.out.println("How many UNDO's per player? ");
         return input.nextInt();
     }
 
-    public static void playGame() {
+    private static void playGame() {
         // Start Playing the Game
         // while(game is IN_PROGRESS)
         // 1. Print the Board
@@ -141,7 +148,7 @@ public class TicTacToe {
     }
 
     //Replay the entire game
-    public static void askForReplay() {
+    private static void askForReplay() {
         System.out.println("Do you want a REPLAY of the entire game? (Y/N) ");
         char replayReply = input.next().charAt(0);
         if(replayReply == 'Y' || replayReply == 'y') {
